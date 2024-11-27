@@ -21,6 +21,9 @@ import sqlite3
 def get_user(username, passwort):
   conn = sqlite3.connect(data_files["database.db"])
   cursor =  conn.cursor()
-  res = cursor.execute(f"SELECT username FROM Users WHERE username = {username} AND password = {passwort}")
+  try:
+      res = cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'")
+      res = "Login successful"
+  except Exception:
+    res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
   return res
-
