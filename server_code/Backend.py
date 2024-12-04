@@ -23,7 +23,19 @@ def get_user(username, passwort):
   cursor =  conn.cursor()
   try:
       res = cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'")
-      res = "Login successful"
+      result = cursor.fetchone()
+      if result:
+        res = "Login successful"
+      else:
+        raise ValueError("Empty Data")
   except Exception:
-    res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
+      res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
   return res
+
+@anvil.server.route("/?Accountno")
+def get_Accno(id=None):
+  if id is None:
+      return "No Account number provided"
+  return f"You requested user {id}"
+  
+  
