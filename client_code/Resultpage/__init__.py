@@ -19,4 +19,5 @@ class Resultpage(ResultpageTemplate):
     # Any code you write here will run before the form opens.
 
   def outlined_button_1_click(self, **event_args):
+    anvil.server.call('logout')
     open_form('Startpage')

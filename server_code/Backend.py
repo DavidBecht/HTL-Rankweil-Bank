@@ -32,14 +32,12 @@ def get_user(username, passwort):
       result = cursor.fetchone()
       if result:
         res = "Login successful"
+        anvil.server.session["login"] = True
       else:
         raise ValueError("Empty Data")
   except Exception:
       res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
   return res
-  
-@anvil.server.callable
-
 
 @anvil.server.callable
 def get_query_params(url):
@@ -53,7 +51,11 @@ def get_data_accountno(accountno):
   cursor = conn.cursor()
   querybalance = f"SELECT balance FROM Balances WHERE AccountNo = {accountno}"
   queryusername = f"SELECT username FROM Users WHERE AccountNo = {accountno}"
+  
   try:
    return list(cursor.execute(querybalance)) + list(cursor.execute(queryusername))
   except:
     return ""
+@anvil.server.callable
+def logout():
+  anvil.server.session["login"] = False

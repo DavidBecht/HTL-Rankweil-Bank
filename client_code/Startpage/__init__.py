@@ -12,7 +12,6 @@ class Startpage(StartpageTemplate):
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
     state = anvil.server.call('get_login_state')
-    alert(state)
     if state is True:
       open_form('Resultpage')
 
