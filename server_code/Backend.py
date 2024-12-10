@@ -19,6 +19,11 @@ import urllib.parse
 #   print("Hello, " + name + "!")
 #   return 42
 @anvil.server.callable
+def get_login_state():
+  if "login" not in anvil.server.session:
+    anvil.server.session["login"] = False
+  return anvil.server.session["login"]
+@anvil.server.callable
 def get_user(username, passwort):
   conn = sqlite3.connect(data_files["database.db"])
   cursor =  conn.cursor()
@@ -32,12 +37,9 @@ def get_user(username, passwort):
   except Exception:
       res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
   return res
-  @anvil.server.callable
-  def get_login_state():
-    if "login" not in anvil.server.session:
-      anvil.server.session["login"] = False
+  
+@anvil.server.callable
 
-  return anvil.server.session["login"]
 
 @anvil.server.callable
 def get_query_params(url):

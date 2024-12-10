@@ -12,6 +12,7 @@ class Resultpage(ResultpageTemplate):
     self.init_components(**properties)
     url = anvil.js.window.location.href
     queryparams = anvil.server.call('get_query_params', url)
+    print(queryparams)
     accno = queryparams.get('AccountNo', [None])[0]
     self.Label_result.text = anvil.server.call('get_data_accountno', accno)
 
