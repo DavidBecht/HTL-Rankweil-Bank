@@ -5,6 +5,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 import sqlite3
+import urllib.parse
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -32,10 +33,17 @@ def get_user(username, passwort):
       res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
   return res
 
-@anvil.server.route("/?Accountno")
-def get_Accno(id=None):
-  if id is None:
-      return "No Account number provided"
-  return f"You requested user {id}"
+@anvil.server.callable
+def get_query_params(url):
+  query = url.split('?')[-1] if '?' in url else ''
+  query = urllib.parse.parse_qs(query)
+  return query
   
+@anvil.server.callable
+def get_data_accountno(accountno):
+   conn = sqlite3.connect(data_files["database.db"])
+   cursor = conn.cursor()
+   querybalance = f"SELECT balance FROM Balances WHERE AccountNo = {accountno}"
+   queryusername = f"SELECT username FROM Users WHERE AccountNo = {accountno}"
+   return list(cursor.execute(querybalance)) + list(cursor.execute(queryusername))
   
