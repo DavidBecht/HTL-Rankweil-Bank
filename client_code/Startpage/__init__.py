@@ -10,11 +10,10 @@ class Startpage(StartpageTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    url = anvil.js.window.location.href
-    queryparams = anvil.server.call('get_query_params', url)
-    accno = queryparams.get('AccountNo', [None])[0]
-    
     # Any code you write here will run before the form opens.
+    state = anv
+    if 
+      open_form('Startpage.Resultpage')
 
   def outlined_button_1_click(self, **event_args):
     username = self.textbox_username.text

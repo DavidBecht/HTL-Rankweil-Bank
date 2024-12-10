@@ -32,6 +32,12 @@ def get_user(username, passwort):
   except Exception:
       res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
   return res
+  @anvil.server.callable
+  def get_login_state():
+    if "login" not in anvil.server.session:
+      anvil.server.session["login"] = False
+
+  return anvil.server.session["login"]
 
 @anvil.server.callable
 def get_query_params(url):
@@ -41,9 +47,11 @@ def get_query_params(url):
   
 @anvil.server.callable
 def get_data_accountno(accountno):
-   conn = sqlite3.connect(data_files["database.db"])
-   cursor = conn.cursor()
-   querybalance = f"SELECT balance FROM Balances WHERE AccountNo = {accountno}"
-   queryusername = f"SELECT username FROM Users WHERE AccountNo = {accountno}"
+  conn = sqlite3.connect(data_files["database.db"])
+  cursor = conn.cursor()
+  querybalance = f"SELECT balance FROM Balances WHERE AccountNo = {accountno}"
+  queryusername = f"SELECT username FROM Users WHERE AccountNo = {accountno}"
+  try:
    return list(cursor.execute(querybalance)) + list(cursor.execute(queryusername))
-  
+  except:
+    return ""
