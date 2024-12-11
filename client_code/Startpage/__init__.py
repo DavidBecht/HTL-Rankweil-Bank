@@ -20,8 +20,4 @@ class Startpage(StartpageTemplate):
     username = self.textbox_username.text
     passwort = self.textbox_passwort.text
     Resultpage = open_form('Resultpage')
-    url = anvil.js.window.location.href
-    queryparams = anvil.server.call('get_query_params', url)
-    print(queryparams)
-    accno = queryparams.get('AccountNo', [None])[0]
-    Resultpage.Label_result.text =  anvil.server.call("get_user",username, passwort,accno)
+    Resultpage.Label_result.text =  anvil.server.call("get_user",username, passwort)
