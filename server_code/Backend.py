@@ -27,9 +27,8 @@ def get_login_state():
 def get_user(username, passwort):
   conn = sqlite3.connect(data_files["database.db"])
   cursor =  conn.cursor()
-  
   try:
-      res = cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'")
+      res = (cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"))
       result = cursor.fetchone()
       if result:
         res = "Login successful but Account number was not passed"
@@ -39,7 +38,13 @@ def get_user(username, passwort):
   except Exception:
       res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
   return res
-
+@anvil.server.callable
+def get_acc_no(username, passwort):
+  conn = sqlite3.connect(data_files["database.db"])
+  cursor =  conn.cursor()
+  res = (cursor.execute(f"SELECT AccountNo FROM Users WHERE username = '{username}' AND password = '{passwort}'"))
+  res = cursor.fetchone()
+  return res[0]
 @anvil.server.callable
 def get_query_params(url):
   query = url.split('?')[-1] if '?' in url else ''
