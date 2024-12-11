@@ -27,6 +27,7 @@ def get_login_state():
 def get_user(username, passwort):
   conn = sqlite3.connect(data_files["database.db"])
   cursor =  conn.cursor()
+  
   try:
       res = cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'")
       result = cursor.fetchone()
@@ -51,11 +52,13 @@ def get_data_accountno(accountno):
   cursor = conn.cursor()
   querybalance = f"SELECT balance FROM Balances WHERE AccountNo = {accountno}"
   queryusername = f"SELECT username FROM Users WHERE AccountNo = {accountno}"
-  
   try:
-   return list(cursor.execute(querybalance)) + list(cursor.execute(queryusername))
+    user = list(cursor.execute(queryusername))
+    balance = list(cursor.execute(querybalance))
+    return f"Welcome {user}! Your balance is {balance}."
   except:
     return ""
+    
 @anvil.server.callable
 def logout():
   anvil.server.session["login"] = False
