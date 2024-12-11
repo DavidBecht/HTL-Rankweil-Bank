@@ -24,15 +24,17 @@ def get_login_state():
     anvil.server.session["login"] = False
   return anvil.server.session["login"]
 @anvil.server.callable
-def get_user(username, passwort):
+def get_user(username, passwort,accountno):
   conn = sqlite3.connect(data_files["database.db"])
   cursor =  conn.cursor()
   try:
       res = cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'")
       result = cursor.fetchone()
-      if result:
+      if result and accountno is not None:
         res = "Login successful"
         anvil.server.session["login"] = True
+      elif result:
+        res = "Login successful but Account number was not passed"
       else:
         raise ValueError("Empty Data")
   except Exception:
