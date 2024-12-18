@@ -19,8 +19,7 @@ class Startpage(StartpageTemplate):
   def outlined_button_1_click(self, **event_args):
     username = self.textbox_username.text
     passwort = self.textbox_passwort.text
-    accno = anvil.server.call('get_acc_no', username,passwort)
-    anvil.js.window.location.href += "?AccountNo=" + str(accno)
+    anvil.js.window.location.href += "?AccountNo="
     Resultpage = open_form('Resultpage')
     url = anvil.js.window.location.href
     Resultpage.Label_result.text =  anvil.server.call("get_user",username, passwort, url)[0]
