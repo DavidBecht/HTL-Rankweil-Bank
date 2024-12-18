@@ -24,19 +24,19 @@ def get_login_state():
     anvil.server.session["login"] = False
   return anvil.server.session["login"]
 @anvil.server.callable
-def get_user(username, passwort):
+def get_user(username, passwort, url):
   conn = sqlite3.connect(data_files["database.db"])
   cursor =  conn.cursor()
   try:
       res = (cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"))
       result = cursor.fetchone()
+      queryparams = get_query_params(url)
+      accno = queryparams.get('AccountNo', [None])[0]
       if result:
-        res = "Login successful but Account number was not passed"
+        res = get_data_accountno(accno)
         anvil.server.session["login"] = True
-      else:
-        raise ValueError("Empty Data")
   except Exception:
-      res = f"Login not successful: \n SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
+      res = f"Login not successful: \n {res}'"
   return res
 @anvil.server.callable
 def get_acc_no(username, passwort):
@@ -44,7 +44,10 @@ def get_acc_no(username, passwort):
   cursor =  conn.cursor()
   res = (cursor.execute(f"SELECT AccountNo FROM Users WHERE username = '{username}' AND password = '{passwort}'"))
   res = cursor.fetchone()
-  return res[0]
+  try:
+    return res[0]
+  except: 
+    return None
 @anvil.server.callable
 def get_query_params(url):
   query = url.split('?')[-1] if '?' in url else ''
@@ -60,7 +63,11 @@ def get_data_accountno(accountno):
   try:
     user = list(cursor.execute(queryusername))
     balance = list(cursor.execute(querybalance))
-    return f"Welcome {user}! Your balance is {balance}."
+    if accountno != None:
+      return f"Welcome {user}! Your balance is {balance}."
+    else:
+      return "Login successful but AccountNo was not passed"
+    
   except:
     return ""
     
