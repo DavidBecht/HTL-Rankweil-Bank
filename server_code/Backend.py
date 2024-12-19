@@ -25,19 +25,25 @@ def get_login_state():
   return anvil.server.session["login"]
 @anvil.server.callable
 def get_user(username, passwort, url):
-  conn = sqlite3.connect(data_files["database.db"])
-  cursor =  conn.cursor()
-  try:
-      res = (cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"))
-      result = cursor.fetchone()
+    conn = sqlite3.connect(data_files["database.db"])
+    cursor = conn.cursor()
+    try:
+      # SQL-Abfrage ausführen
+      cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'")
+      result = cursor.fetchone()  # Das Ergebnis holen
       queryparams = get_query_params(url)
       accno = queryparams.get('AccountNo', [None])[0]
-      if result:
+      
+      if result:  # Wenn ein Benutzer gefunden wurde
         res = get_data_accountno(accno)
         anvil.server.session["login"] = True
-  except Exception:
-      res = f"Login not successful: \n {res}'"
-  return res
+        return res  # Serialisierbares Ergebnis zurückgeben
+      else:
+        return f"Login not successful: \nSELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"  # Klarer Fehlerfall
+    except Exception as e:
+        return f"Login not successful: {str(e)}"  # Fehlerbeschreibung zurückgeben
+    finally:
+        conn.close()  # Verbindung schließen
 @anvil.server.callable
 def get_acc_no(username, passwort):
   conn = sqlite3.connect(data_files["database.db"])
@@ -61,8 +67,10 @@ def get_data_accountno(accountno):
   querybalance = f"SELECT balance FROM Balances WHERE AccountNo = {accountno}"
   queryusername = f"SELECT username FROM Users WHERE AccountNo = {accountno}"
   try:
-    user = list(cursor.execute(queryusername))
-    balance = list(cursor.execute(querybalance))
+    cursor.execute(queryusername)
+    user = cursor.fetchone()
+    cursor.execute(querybalance)
+    balance = cursor.fetchone()
     if accountno != None:
       return f"Welcome {user}! Your balance is {balance}."
     else:

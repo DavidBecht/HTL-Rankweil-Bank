@@ -11,7 +11,8 @@ class Resultpage(ResultpageTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
-    print("ADFS")
+    url = anvil.js.window.location.href
+    self.Label_result.text =  anvil.server.call("get_user","username", "passwort", url)
 
   def outlined_button_1_click(self, **event_args):
     anvil.server.call('logout')
