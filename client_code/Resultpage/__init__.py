@@ -7,12 +7,12 @@ from anvil.tables import app_tables
 
 
 class Resultpage(ResultpageTemplate):
-  def __init__(self, **properties):
+  def __init__(self, username, passwort, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
     url = anvil.js.window.location.href
-    self.Label_result.text =  anvil.server.call("get_user","username", "passwort", url)
+    self.Label_result.text =  anvil.server.call("get_user",username, passwort, url)
 
   def outlined_button_1_click(self, **event_args):
     anvil.server.call('logout')

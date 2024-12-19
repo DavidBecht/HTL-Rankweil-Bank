@@ -10,6 +10,7 @@ class Startpage(StartpageTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    print("x")
     # Any code you write here will run before the form opens.
     state = anvil.server.call('get_login_state')
     if state is True:
@@ -19,5 +20,6 @@ class Startpage(StartpageTemplate):
   def outlined_button_1_click(self, **event_args):
     username = self.textbox_username.text
     passwort = self.textbox_passwort.text
-    Resultpage = open_form('Resultpage')
+    open_form('Resultpage',username,passwort)
+    
     

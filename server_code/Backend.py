@@ -20,7 +20,9 @@ import urllib.parse
 #   return 42
 @anvil.server.callable
 def get_login_state():
+  print(1)
   if "login" not in anvil.server.session:
+    print(2)
     anvil.server.session["login"] = False
   return anvil.server.session["login"]
 @anvil.server.callable
