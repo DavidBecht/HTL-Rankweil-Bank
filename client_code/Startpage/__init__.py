@@ -14,7 +14,7 @@ class Startpage(StartpageTemplate):
     # Any code you write here will run before the form opens.
     state = anvil.server.call('get_login_state')
     if state is True:
-      open_form('Resultpage')
+      open_form('Resultpage', 'x','x')
 
 
   def outlined_button_1_click(self, **event_args):

@@ -31,19 +31,27 @@ def get_user(username, passwort, url):
       # SQL-Abfrage ausführen
       cursor.execute(f"SELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'")
       result = cursor.fetchone()  # Das Ergebnis holen
+      cursor.execute("Select AccountNo from Users Where username = ? AND password = ?", (username, passwort))
+      result1 = cursor.fetchone()
       queryparams = get_query_params(url)
       accno = queryparams.get('AccountNo', [None])[0]
-      
+      print(accno)
+      if accno != None:
+        return get_data_accountno(accno)
       if result:  # Wenn ein Benutzer gefunden wurde
-        res = get_data_accountno(accno)
+        if result and result1:
+          accno = get_acc_no(username,passwort)
+          res = get_data_accountno(accno)
+        else:
+          res = "Login successful but 'AccountNo' was not passed"
         anvil.server.session["login"] = True
         return res  # Serialisierbares Ergebnis zurückgeben
       else:
         return f"Login not successful: \nSELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"  # Klarer Fehlerfall
     except Exception as e:
-        return f"Login not successful: {str(e)}"  # Fehlerbeschreibung zurückgeben
+      return f"Login not successful: {str(e)}"  # Fehlerbeschreibung zurückgeben
     finally:
-        conn.close()  # Verbindung schließen
+      conn.close()  # Verbindung schließen
 @anvil.server.callable
 def get_acc_no(username, passwort):
   conn = sqlite3.connect(data_files["database.db"])
@@ -66,19 +74,15 @@ def get_data_accountno(accountno):
   cursor = conn.cursor()
   querybalance = f"SELECT balance FROM Balances WHERE AccountNo = {accountno}"
   queryusername = f"SELECT username FROM Users WHERE AccountNo = {accountno}"
-  try:
-    cursor.execute(queryusername)
-    user = cursor.fetchone()
-    cursor.execute(querybalance)
-    balance = cursor.fetchone()
-    if accountno != None:
-      return f"Welcome {user}! Your balance is {balance}."
-    else:
-      return "Login successful but AccountNo was not passed"
-    
-  except:
-    return "Login successful but AccountNo was not passed"
-    print("x")
+  cursor.execute(queryusername)
+  user = cursor.fetchone()
+  cursor.execute(querybalance)
+  balance = cursor.fetchone()
+  if balance != None:
+    return f"Welcome {user}! Your balance is {balance}."
+  else:
+    return f"User not found \n {querybalance} \n {querybalance}"
+
     
 @anvil.server.callable
 def logout():
