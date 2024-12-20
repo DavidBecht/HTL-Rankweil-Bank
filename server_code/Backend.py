@@ -63,6 +63,7 @@ def get_user(username, passwort, url, secureinput):
         anvil.server.session["valid"] = "invalid"
         return res  # Serialisierbares Ergebnis zurückgeben
       else:
+        anvil.server.session["valid"] = "invalid"
         return f"Login not successful: \nSELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"  # Klarer Fehlerfall
     except Exception as e:
       return f"Login not successful: {str(e)}"  # Fehlerbeschreibung zurückgeben
@@ -97,6 +98,7 @@ def get_data_accountno(accountno):
   if balance != None:
     return f"Welcome {user}! Your balance is {balance}."
   else:
+    anvil.server.session["valid"] = "invalid"
     return f"User not found \n {querybalance} \n {querybalance}"
 
     

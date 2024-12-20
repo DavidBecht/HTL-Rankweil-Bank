@@ -14,6 +14,7 @@ class Resultpage(ResultpageTemplate):
       accno = anvil.server.call('loadsessiondata')[0]
     except:
       self.Label_result.text = "Not Logged in!"
+      return
     
     secureinput = anvil.server.call('loadsessiondata')[1]
     if secureinput:
