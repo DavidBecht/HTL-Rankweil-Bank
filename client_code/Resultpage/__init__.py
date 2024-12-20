@@ -10,8 +10,11 @@ class Resultpage(ResultpageTemplate):
   def __init__(self, username, passwort, secureinput, skip=False, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    try:
+      accno = anvil.server.call('loadsessiondata')[0]
+    except:
+      self.Label_result.text = "Not Logged in!"
     
-    accno = anvil.server.call('loadsessiondata')[0]
     secureinput = anvil.server.call('loadsessiondata')[1]
     if secureinput:
       try:
