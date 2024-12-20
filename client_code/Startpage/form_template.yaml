@@ -4,24 +4,21 @@ components:
     name: textbox_username
     properties: {placeholder: 'Username:'}
     type: TextBox
-  - layout_properties: {grid_position: 'IDKQWV,NPBJMS'}
-    name: check_box_1
-    properties: {font_size: 10, spacing_above: medium, text: SQL Injection possible}
-    type: CheckBox
   - layout_properties: {grid_position: 'IDKQWV,OXZTDS'}
     name: text_box_4
     properties: {visible: false}
     type: TextBox
-  - layout_properties: {full_width_row: false, grid_position: 'QFZVRN,KWNAPJ', row_background: 'theme:On Primary'}
+  - layout_properties: {full_width_row: false, grid_position: 'QFZVRN,KWNAPJ JZHGIY,ELCTUX', row_background: 'theme:On Primary'}
     name: textbox_passwort
     properties:
       hide_text: false
       margin: [null, '8', null, 0]
       placeholder: 'Passwort:'
     type: TextBox
-  - layout_properties: {grid_position: 'QFZVRN,DHFBXM'}
-    name: check_box_2
-    properties: {font_size: 10, spacing_above: medium, text: SQL Injection Possible}
+  - event_bindings: {change: check_box_1_change}
+    layout_properties: {grid_position: 'QFZVRN,KWNAPJ PGJTOP,CSOJGF'}
+    name: check_box_1
+    properties: {text: Eingabe gesichert}
     type: CheckBox
   - layout_properties: {grid_position: 'QFZVRN,AVVHXP'}
     name: text_box_3
@@ -41,7 +38,7 @@ components:
     type: XYPanel
   layout_properties: {slot: default}
   name: content_panel
-  properties: {col_widths: '{"KWNAPJ":20,"AVVHXP":45,"TYXFJO":20,"OXZTDS":45,"NPBJMS":15,"DHFBXM":15}'}
+  properties: {col_widths: '{"KWNAPJ":15,"AVVHXP":50,"TYXFJO":15,"OXZTDS":50}'}
   type: ColumnPanel
 - layout_properties: {slot: nav-right}
   name: navbar_links

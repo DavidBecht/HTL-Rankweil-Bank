@@ -6,6 +6,7 @@ from anvil.tables import app_tables
 import anvil.server
 import sqlite3
 import urllib.parse
+import anvil.js
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -24,7 +25,20 @@ def get_login_state():
     anvil.server.session["login"] = False
   return anvil.server.session["login"]
 @anvil.server.callable
-def get_user(username, passwort, url):
+def set_session_accno(accno):
+  anvil.server.session["AccountNo"] = accno
+@anvil.server.callable
+def set_session_secureinput(secureinput):
+  anvil.server.session['secureinput'] = secureinput
+@anvil.server.callable
+def loadsessiondata():
+  try:
+    return anvil.server.session['AccountNo'], anvil.server.session['secureinput'], anvil.server.session['valid']
+  except:
+    return anvil.server.session['AccountNo'], anvil.server.session['secureinput']
+@anvil.server.callable
+def get_user(username, passwort, url, secureinput):
+    anvil.server.session['valid'] = 'Temp'
     conn = sqlite3.connect(data_files["database.db"])
     cursor = conn.cursor()
     try:
@@ -35,16 +49,18 @@ def get_user(username, passwort, url):
       result1 = cursor.fetchone()
       queryparams = get_query_params(url)
       accno = queryparams.get('AccountNo', [None])[0]
-      print(accno)
       if accno != None:
         return get_data_accountno(accno)
       if result:  # Wenn ein Benutzer gefunden wurde
         if result and result1:
           accno = get_acc_no(username,passwort)
           res = get_data_accountno(accno)
+        elif not result1 and secureinput:
+          return f"Login not successful: \nSELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
         else:
           res = "Login successful but 'AccountNo' was not passed"
         anvil.server.session["login"] = True
+        anvil.server.session["valid"] = "invalid"
         return res  # Serialisierbares Ergebnis zurückgeben
       else:
         return f"Login not successful: \nSELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"  # Klarer Fehlerfall
