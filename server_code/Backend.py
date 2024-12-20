@@ -56,11 +56,12 @@ def get_user(username, passwort, url, secureinput):
           accno = get_acc_no(username,passwort)
           res = get_data_accountno(accno)
         elif not result1 and secureinput:
+          anvil.server.session["valid"] = "invalid"
           return f"Login not successful: \nSELECT username FROM Users WHERE username = '{username}' AND password = '{passwort}'"
         else:
           res = "Login successful but 'AccountNo' was not passed"
+          anvil.server.session["valid"] = "invalid"
         anvil.server.session["login"] = True
-        anvil.server.session["valid"] = "invalid"
         return res  # Serialisierbares Ergebnis zurückgeben
       else:
         anvil.server.session["valid"] = "invalid"
@@ -96,6 +97,8 @@ def get_data_accountno(accountno):
   cursor.execute(querybalance)
   balance = cursor.fetchone()
   if balance != None:
+    print(anvil.server.session["valid"])
+    anvil.server.session["valid"] = "valid"
     return f"Welcome {user}! Your balance is {balance}."
   else:
     return f"User not found \n {querybalance} \n {querybalance}"
