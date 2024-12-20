@@ -98,7 +98,6 @@ def get_data_accountno(accountno):
   if balance != None:
     return f"Welcome {user}! Your balance is {balance}."
   else:
-    anvil.server.session["valid"] = "invalid"
     return f"User not found \n {querybalance} \n {querybalance}"
 
     
