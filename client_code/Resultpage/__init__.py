@@ -21,7 +21,7 @@ class Resultpage(ResultpageTemplate):
       try:
         print(str(accno),str(self.get_query_params()['AccountNo']).strip())
         if str(accno) != str(self.get_query_params()['AccountNo']).strip():
-          alert("🚨 Don't even think about changing your Account Number! 🚫\nI check that 😉")
+          alert("🚨 Veränder des ned du Schlawiner 🚫\n Mach des ned 😉")
           self.set_query_params({"AccountNo": accno})
       except:
         ""
