@@ -90,12 +90,14 @@ def get_query_params(url):
 def get_data_accountno(accountno):
   conn = sqlite3.connect(data_files["database.db"])
   cursor = conn.cursor()
+  print(accountno)
   querybalance = f"SELECT balance FROM Balances WHERE AccountNo = {accountno}"
   queryusername = f"SELECT username FROM Users WHERE AccountNo = {accountno}"
   cursor.execute(queryusername)
-  user = cursor.fetchone()
+  user = cursor.fetchall()
+  print(user)
   cursor.execute(querybalance)
-  balance = cursor.fetchone()
+  balance = cursor.fetchall()
   if balance != None:
     print(anvil.server.session["valid"])
     anvil.server.session["valid"] = "valid"
