@@ -14,11 +14,13 @@ class Startpage(StartpageTemplate):
     url = anvil.js.window.location.href
     queryparams = anvil.server.call('get_query_params', url)
     state = anvil.server.call('get_login_state')
-    if state is True:
-      open_form('Resultpage', '','', self.check_box_1.checked)
-    elif not state and queryparams.get('AccountNo', [None])[0] != None:
+    if not state and queryparams.get('AccountNo', [None])[0] != None:
       Resultpage = open_form('Resultpage', 'x','x', self.check_box_1.checked, "nologin")
       Resultpage.Label_result.text = "Not Logged in"
+    if state is True:
+      open_form('Resultpage', '','', self.check_box_1.checked)
+    else:
+      self.logout_clean_url()
 
 
   def outlined_button_1_click(self, **event_args):
@@ -30,5 +32,10 @@ class Startpage(StartpageTemplate):
     anvil.server.call('set_session_secureinput',secureinput)
     anvil.server.call('set_session_accno', anvil.server.call('get_acc_no', username, passwort))
     open_form('Resultpage',username,passwort, secureinput)
+  def logout_clean_url(self):
+    anvil.server.call('logout')
+    js_window = anvil.js.window
+    anvil.server.reset_session()
+    js_window.history.replaceState(None, "", js_window.location.pathname)
     
     

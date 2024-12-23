@@ -100,7 +100,8 @@ def get_data_accountno(accountno):
   balance = cursor.fetchall()
   if user and balance:
     print(anvil.server.session["valid"])
-    anvil.server.session["valid"] = "valid"
+    if isinstance(accountno, int):
+      anvil.server.session["valid"] = "valid"
     return f"Welcome {user}! Your balance is {balance}."
   else:
     anvil.server.session["valid"] = "invalid"
