@@ -98,11 +98,12 @@ def get_data_accountno(accountno):
   print(user)
   cursor.execute(querybalance)
   balance = cursor.fetchall()
-  if balance != None:
+  if user and balance:
     print(anvil.server.session["valid"])
     anvil.server.session["valid"] = "valid"
     return f"Welcome {user}! Your balance is {balance}."
   else:
+    anvil.server.session["valid"] = "invalid"
     return f"User not found \n {querybalance} \n {querybalance}"
 
     

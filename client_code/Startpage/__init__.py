@@ -15,9 +15,9 @@ class Startpage(StartpageTemplate):
     queryparams = anvil.server.call('get_query_params', url)
     state = anvil.server.call('get_login_state')
     if state is True:
-      open_form('Resultpage', 'x','x', self.check_box_1.checked)
+      open_form('Resultpage', '','', self.check_box_1.checked)
     elif not state and queryparams.get('AccountNo', [None])[0] != None:
-      Resultpage = open_form('Resultpage', 'x','x', self.check_box_1.checked, True)
+      Resultpage = open_form('Resultpage', 'x','x', self.check_box_1.checked, "nologin")
       Resultpage.Label_result.text = "Not Logged in"
 
 

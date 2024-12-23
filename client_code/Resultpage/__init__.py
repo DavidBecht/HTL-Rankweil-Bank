@@ -10,6 +10,9 @@ class Resultpage(ResultpageTemplate):
   def __init__(self, username, passwort, secureinput, skip=False, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    if skip == "nologin":
+      print("Not Logged in!")
+      return
     try:
       accno = anvil.server.call('loadsessiondata')[0]
     except:
@@ -21,7 +24,7 @@ class Resultpage(ResultpageTemplate):
       try:
         print(str(accno),str(self.get_query_params()['AccountNo']).strip())
         if str(accno) != str(self.get_query_params()['AccountNo']).strip():
-          alert("🚨 Veränder des ned du Schlawiner 🚫\n Mach des ned 😉")
+          alert("Nicht verändern!! \n (Man könnte die Veränderung auch einfach ignorieren)")
           self.set_query_params({"AccountNo": accno})
       except:
         ""
@@ -29,7 +32,7 @@ class Resultpage(ResultpageTemplate):
       url = anvil.js.window.location.href
       self.Label_result.text =  anvil.server.call("get_user",username, passwort, url, secureinput)
       print(anvil.server.call('loadsessiondata')[2])
-      if anvil.server.call('loadsessiondata')[2] != "invalid":
+      if anvil.server.call('loadsessiondata')[2] == "valid":
         self.set_query_params({"AccountNo": accno})
 
     
