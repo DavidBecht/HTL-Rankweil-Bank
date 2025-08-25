@@ -6,7 +6,7 @@ components:
     type: Image
   - layout_properties: {grid_position: 'MFTGZE,WHUDMD'}
     name: text_box_2
-    properties: {align: center, bold: true, font_size: 28, text: Willkommen bei der HTL-Rankweil-Bank}
+    properties: {align: center, bold: true, enabled: false, font_size: 28, foreground: '#000000', text: Willkommen bei der HTL-Rankweil-Bank}
     type: TextBox
   - layout_properties: {grid_position: 'IDKQWV,TYXFJO'}
     name: textbox_username
@@ -39,17 +39,11 @@ components:
       type: Button
     - layout_properties: {}
       name: text_area_1
-      properties:
-        background: '#80ff00'
-        bold: false
-        enabled: false
-        foreground: theme:On Secondary Container
-        text: |
-          Hinweis:
-          Versuche den SQL-Query mit einem Steuerzeichen zu unterbrechen um ein SQL-Befehl einzuschleußen.
+      properties: {background: '#80ff00', bold: false, enabled: false, foreground: 'theme:On Secondary Container', height: 71, text: 'Versuche den SQL-Befehl mit einem speziellen SQL-Zeichen zu unterbrechen und füge anschließend eine Bedingung ein, die immer wahr ist.', tooltip: Hinweis}
       type: TextArea
-    - name: text_area_2
-      properties: {}
+    - layout_properties: {}
+      name: textarea_error
+      properties: {enabled: false, foreground: 'theme:On Primary Container', height: 231, tooltip: Error}
       type: TextArea
     layout_properties: {grid_position: 'WKOGWY,NWRHMU'}
     name: linear_panel_2

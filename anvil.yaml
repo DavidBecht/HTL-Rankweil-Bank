@@ -14,7 +14,10 @@ db_schema:
       type: string
     server: full
     title: Files
-dependencies: []
+dependencies:
+- dep_id: dep_0b60mlf287nasf
+  resolution_hints: {app_id: 3PIDO5P3H4VPEMPL, name: routing, package_name: routing}
+  version: {version_tag: v0.4.0}
 name: M3 App 2
 package_name: M3_App_2
 renamed: true
@@ -30,5 +33,5 @@ services:
 - client_config: {}
   server_config: {file_table: files}
   source: /runtime/services/anvil/files.yml
-startup: {module: Startpage, type: form}
+startup: {module: InitPage, type: form}
 startup_form: null

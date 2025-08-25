@@ -37,6 +37,18 @@ def loadsessiondata():
   except:
     return anvil.server.session['AccountNo'], anvil.server.session['secureinput']
 @anvil.server.callable
+def get_user_simple(username, password):
+  conn = sqlite3.connect(data_files["database.db"])
+  cursor = conn.cursor()
+  query = f"SELECT username FROM Users WHERE username = '{username}' AND password = '{password}'"
+  try:
+    result = cursor.execute(query)
+  except Exception as e:
+    return False, f"Login failed!\n\nQuery:\n{query}\nError\n\n{e}", None
+  user = cursor.fetchone()
+  return True, f"Login Successfull", user
+    
+  
 def get_user(username, passwort, url, secureinput):
     anvil.server.session['valid'] = 'Temp'
     conn = sqlite3.connect(data_files["database.db"])

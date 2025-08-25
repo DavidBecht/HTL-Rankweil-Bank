@@ -8,6 +8,10 @@ import anvil.tables as tables
 import anvil.tables.query as q
 import anvil.js
 from anvil.tables import app_tables
+from anvil_extras import routing
+
+@routing.default_template
+@routing.route('')
 
 class Startpage(StartpageTemplate):
   def __init__(self, **properties):
@@ -32,10 +36,16 @@ class Startpage(StartpageTemplate):
     secureinput = False
     if self.check_box_1.checked:
       secureinput = True
-    anvil.server.call('set_session_secureinput',secureinput)
-    anvil.server.call('set_session_accno', anvil.server.call('get_acc_no', username, passwort))
-    self.Label_result.text =  anvil.server.call("get_user",username, passwort, url, secureinput)
-    open_form('Resultpage',username,passwort, secureinput)
+    # anvil.server.call('set_session_secureinput',secureinput)
+    # anvil.server.call('set_session_accno', anvil.server.call('get_acc_no', username, passwort))
+    # self.Label_result.text =  anvil.server.call("get_user",username, passwort, url, secureinput)
+    # open_form('Resultpage',username,passwort, secureinput)
+    res, msg, user =  anvil.server.call("get_user_simple",username, passwort)
+    if not res:
+      self.textarea_error.text = msg
+    else:
+      routing.set_url_hash(url_pattern='users', url_dict={})
+      
   def logout_clean_url(self):
     anvil.server.call('logout')
     js_window = anvil.js.window
