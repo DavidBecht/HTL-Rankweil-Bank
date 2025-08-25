@@ -6,6 +6,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from ..Startpage import Startpage
 from ..Users import Users
+from ..Login import Login
 
 class InitPage(InitPageTemplate):
   def __init__(self, **properties):

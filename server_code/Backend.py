@@ -38,16 +38,33 @@ def loadsessiondata():
     return anvil.server.session['AccountNo'], anvil.server.session['secureinput']
 @anvil.server.callable
 def get_user_simple(username, password):
-  conn = sqlite3.connect(data_files["database.db"])
-  cursor = conn.cursor()
-  query = f"SELECT username FROM Users WHERE username = '{username}' AND password = '{password}'"
-  try:
-    result = cursor.execute(query)
-  except Exception as e:
-    return False, f"Login failed!\n\nQuery:\n{query}\nError\n\n{e}", None
-  user = cursor.fetchone()
-  return True, f"Login Successfull", user
-    
+  with sqlite3.connect(data_files["database.db"]) as conn:
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    query = f"SELECT username FROM Users WHERE username = '{username}' AND password = '{password}'"
+    try:
+      result = cursor.execute(query)
+    except Exception as e:
+      return False, f"Login failed!\n\nQuery:\n{query}\n\nError:\n{e}", None
+    user = cursor.fetchone()
+    if user == None:
+      return False, f"Login Failed!\n\nUser '{username}' not found.", None
+    return True, f"Login Successfull", dict(user)
+
+@anvil.server.callable
+def get_user_simple_2(username, password):
+  with sqlite3.connect(data_files["database.db"]) as conn:
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    query = f"SELECT username FROM Users WHERE username = '{username}' AND password = '{password}' AND isActive=0"
+    try:
+      result = cursor.execute(query)
+    except Exception as e:
+      return False, f"Login failed!\n\nQuery:\n{query}\n\nError:\n{e}", None
+    user = cursor.fetchone()
+    if user == None:
+      return False, f"Login Failed!\n\nQuery:\n{query}", None
+    return True, f"Login Successfull", dict(user)
   
 def get_user(username, passwort, url, secureinput):
     anvil.server.session['valid'] = 'Temp'
