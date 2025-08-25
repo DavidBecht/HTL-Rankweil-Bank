@@ -1,5 +1,8 @@
 from ._anvil_designer import StartpageTemplate
 from anvil import *
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
 import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
@@ -23,7 +26,7 @@ class Startpage(StartpageTemplate):
       self.logout_clean_url()
 
 
-  def outlined_button_1_click(self, **event_args):
+  def login_button_click(self, **event_args):
     username = self.textbox_username.text
     passwort = self.textbox_passwort.text
     secureinput = False
@@ -31,6 +34,7 @@ class Startpage(StartpageTemplate):
       secureinput = True
     anvil.server.call('set_session_secureinput',secureinput)
     anvil.server.call('set_session_accno', anvil.server.call('get_acc_no', username, passwort))
+    self.Label_result.text =  anvil.server.call("get_user",username, passwort, url, secureinput)
     open_form('Resultpage',username,passwort, secureinput)
   def logout_clean_url(self):
     anvil.server.call('logout')
