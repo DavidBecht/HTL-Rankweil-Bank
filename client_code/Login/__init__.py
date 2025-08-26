@@ -10,10 +10,8 @@ import anvil.js
 from anvil.tables import app_tables
 from anvil_extras import routing
 
-
 @routing.default_template
 @routing.route('login', url_keys=['username'])
-
 class Login(LoginTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -30,10 +28,15 @@ class Login(LoginTemplate):
     res, msg, user = anvil.server.call("get_user_simple_2", username, passwort)
     if not res or not user or user.get('username', None) == None:
       self.textarea_error.text = msg
-
     else:
-      print(user)
-      routing.set_url_hash(url_pattern="users", url_dict={})
+      res, exc, accountno_dict = anvil.server.call("execute_query", f"SELECT accountno FROM users WHERE username = '{username}'")
+      res_dict = {'username': username}
+      if accountno_dict:
+        res_dict['accountno'] = accountno_dict['accountno']
+      else:
+        res_dict['accountno'] = None
+      print(res_dict)
+      routing.set_url_hash(url_pattern="users", url_dict=res_dict)
 
   def logout_clean_url(self):
     anvil.server.call("logout")

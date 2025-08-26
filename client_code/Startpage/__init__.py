@@ -42,7 +42,7 @@ class Startpage(StartpageTemplate):
     if not res or not user or user.get('username', None) == None:
       self.textarea_error.text = msg
     else:
-      routing.set_url_hash(url_pattern='login', url_dict=user)
+      routing.set_url_hash(url_pattern='login', url_dict={'username': self.textbox_username.text})
       
   def logout_clean_url(self):
     anvil.server.call('logout')
