@@ -28,10 +28,8 @@ components:
         bold: false
         enabled: false
         foreground: theme:On Secondary Container
-        height: 135
-        text: |-
-          Hinweis:
-          Der HTTP-GET-Parameter "accountno" konnte deinem Benutzernamen nicht zugeordnet werden. Da GET-Parameter in der URL übergeben werden, versuche dort eine SQL-Injection einzuschleusen.
+        height: 174
+        text: "Hinweis:\nDer HTTP-GET-Parameter \"accountno\" konnte deinem Benutzernamen nicht zugeordnet werden. Da GET-Parameter in der URL übergeben werden, versuche dort eine SQL-Injection einzuschleusen.\n\nVersuche alle User, Passwörter, Accountnummern und Kontostände herauszufinden. Folgende SQL-Statements könnten dir helfen: UNION,  JOIN, ||. "
         tooltip: Hinweis
       type: TextArea
     - layout_properties: {}
@@ -61,24 +59,6 @@ components:
   name: label_1
   properties: {text: Sql Injection Server}
   type: Label
-- components:
-  - data_bindings: []
-    layout_properties: {}
-    name: button_level_1
-    properties: {align: full, background: '#00ff6e', bold: true, enabled: true, font: '', foreground: 'theme:On Secondary Container', icon_align: left, role: outlined-button, text: Level 1}
-    type: Button
-  - layout_properties: {}
-    name: button_level_2
-    properties: {align: full, background: '#e8574f', bold: true, foreground: 'theme:On Background', role: outlined-button, text: Level 2}
-    type: Button
-  - layout_properties: {}
-    name: button_level_2_copy
-    properties: {align: full, background: '#e8574f', bold: true, foreground: 'theme:On Surface', role: outlined-button, text: Level 3}
-    type: Button
-  layout_properties: {slot: left-nav}
-  name: linear_panel_1
-  properties: {}
-  type: LinearPanel
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate

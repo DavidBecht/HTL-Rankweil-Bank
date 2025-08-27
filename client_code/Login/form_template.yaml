@@ -63,24 +63,6 @@ components:
   name: label_1
   properties: {text: Sql Injection Server}
   type: Label
-- components:
-  - data_bindings: []
-    layout_properties: {}
-    name: button_level_1
-    properties: {align: full, background: '#00ff6e', bold: true, enabled: true, font: '', foreground: 'theme:On Secondary Container', icon_align: left, role: outlined-button, text: Level 1}
-    type: Button
-  - layout_properties: {}
-    name: button_level_2
-    properties: {align: full, background: '#e8574f', bold: true, foreground: 'theme:On Background', role: outlined-button, text: Level 2}
-    type: Button
-  - layout_properties: {}
-    name: button_level_2_copy
-    properties: {align: full, background: '#e8574f', bold: true, foreground: 'theme:On Surface', role: outlined-button, text: Level 3}
-    type: Button
-  layout_properties: {slot: left-nav}
-  name: linear_panel_1
-  properties: {}
-  type: LinearPanel
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate
