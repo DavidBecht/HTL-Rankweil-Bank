@@ -28,7 +28,7 @@ components:
         bold: false
         enabled: false
         foreground: theme:On Secondary Container
-        height: 93
+        height: 135
         text: |-
           Hinweis:
           Der HTTP-GET-Parameter "accountno" konnte deinem Benutzernamen nicht zugeordnet werden. Da GET-Parameter in der URL übergeben werden, versuche dort eine SQL-Injection einzuschleusen.

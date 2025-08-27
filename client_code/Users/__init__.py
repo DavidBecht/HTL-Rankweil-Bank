@@ -22,12 +22,8 @@ class Users(UsersTemplate):
     self.accountno = http_get_dict['accountno']
     self.textbox_welcome.text = f"Willkommen Herr/Frau: '{self.username}'"
     query = f"SELECT balance FROM Balances WHERE accountno = {self.accountno}"
-    res, exc, balance_dict = anvil.server.call("execute_query", query)
-    if not res or not balance_dict or balance_dict.get("balance", None) is None:
-      self.textarea_error.text = f"Query:\n{query}\n\nError:\n{exc}"
-      balance = 'None'
-    else:
-      balance = str(balance_dict["balance"])
+    res, exc, balance = anvil.server.call("execute_query_raw", query, False)
+    self.textarea_error.text = f"Query:\n{query}\n\nResult:\n{balance}\n\nError:\n{exc}"
     row = DataRowPanel(item={'username': self.username, 'accountno': self.accountno, 'balance': balance})
     self.data_grid_balance.add_component(row)
 

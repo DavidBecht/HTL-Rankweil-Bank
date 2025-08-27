@@ -34,7 +34,7 @@ components:
       type: Button
     - layout_properties: {}
       name: text_area_1
-      properties: {background: '#80ff00', bold: false, enabled: false, foreground: 'theme:On Secondary Container', height: 73, text: 'Manchmal prüft die Abfrage noch zusätzliche Bedingungen. Versuche mit SQL-Kommentaren den restlichen Teil auszublenden, damit nur dein eingeschleuster Ausdruck ausgewertet wird.', tooltip: Hinweis}
+      properties: {background: '#80ff00', bold: false, enabled: false, foreground: 'theme:On Secondary Container', height: 95, text: 'Manchmal prüft die Abfrage noch zusätzliche Bedingungen. Versuche mit SQL-Kommentaren den restlichen Teil auszublenden, damit nur dein eingeschleuster Ausdruck ausgewertet wird.', tooltip: Hinweis}
       type: TextArea
     - layout_properties: {}
       name: textarea_error
